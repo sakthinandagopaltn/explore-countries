@@ -10,4 +10,4 @@ Base endpoint: https://countries.dev/countries
 
 Docs: https://countries.dev/docs
 
-The project accesses this API and help you with selecting the right mode of transportation and the currency you need to have ,when travelling from source to destination!
+The project accesses this API and help you with selecting the right mode of transportation and the currency you need to have,what languages you need to know ,when travelling from source to destination!
