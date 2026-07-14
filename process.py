@@ -1,7 +1,9 @@
+import math
 import constants
 from api import api_call
 from distance import haversine
 from mode import findmode
+from display import display_result
 def process_data(source,destination):
 
     # building the urls
@@ -20,25 +22,27 @@ def process_data(source,destination):
     destlng=destresponse['latlng'][1]
 
     # calculate the distance between the two using haversine formula
-    distance=haversine(sourcelat,sourcelng,destlat,destlng)
+    distance=math.floor(haversine(sourcelat,sourcelng,destlat,destlng))
 
     # find mode of transport 
     mode=findmode(distance)
-    print(mode)
+    # print(mode)
 
     #Determining the currency 
     currency=destresponse['currencies'][0]['name']
-    print(currency)
+    # print(currency)
 
     #Determining the languages to be known
     languages=destresponse['languages']
     langlist=[]
     for language in languages:
         langlist.append(language['name'])
-    print(langlist)
+    # print(langlist)
 
     #Determining the calling code
     callingcode=destresponse['callingCodes']
-    print(callingcode)
+    # print(callingcode)
 
-    return destresponse
+    # result={f"Approximate distance between {source.capitalize()} and {destination.capitalize()} in kilometer": distance, "Mode of transporatation":mode, "Currency you need":currency,"Language(s) you should know":langlist,"Calling codes":callingcode}
+
+    display_result(source,destination,distance,mode,currency,langlist,callingcode)

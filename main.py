@@ -10,7 +10,6 @@ def main():
     source=input("Where are you now?: ")
     destination=input("Where do you want to go?: ")
     result=process_data(source,destination)
-    display_result(result)
 
 if __name__ == "__main__":
     main()
