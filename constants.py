@@ -1,5 +1,4 @@
-API_BASE_URL="http://countries.dev/"
-
+API_BASE_URL="https://countries.dev/"
 # Earth's radius in kilometers
 EARTH_RADIUS_KM = 6371
 

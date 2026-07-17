@@ -5,11 +5,20 @@ from display import display_result
 # Getting the source and the destination places from the user 
 # Passing the inputs to 'api_call' function
 def main():
-    print("WELCOME TO EXPLORE THE COUNTRIES AROUND THE WORLD!")
-    print("Let me know where you want to go , I will help you with selecting the right mode of transportation and the currency you need to have !")
-    source=input("Where are you now?: ")
-    destination=input("Where do you want to go?: ")
-    result=process_data(source,destination)
-
+    while True:
+        print("WELCOME TO EXPLORE THE PLACES AROUND THE WORLD!")
+        print("Let me know your source and destination.")
+        print("I will help you with the,")
+        print("1. distance between the places")
+        print("2. the mode of transporatation")
+        print("3. currency you may need")
+        print("4. language(s) you should know")
+        print("5. calling code(s) of the destination")
+        print("6. timezone of the place")
+        print("----------------------------------------------------")
+        source=input("Source: ")
+        destination=input("Destination: ")
+        process_data(source,destination)
+        
 if __name__ == "__main__":
     main()
