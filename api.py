@@ -9,8 +9,7 @@ def iscountry(country):
         if not yescountry:
                 return False
         return True
-        
-        
+               
 def iscity(city):
         yescity=requests.request("GET",API_BASE_URL+"cities?q="+city.lower())
         print("URL called:", yescity.url)
@@ -26,7 +25,8 @@ def iscity(city):
         if not matches:
                 return None
         # Return the one with the shortest name (usually the common/preferred one)
-        return min(matches, key=lambda c: len(c['name']))
+        # return min(matches, key=lambda c: len(c['name']))
+        return matches
 
 def isplace(place):
         yesplace=requests.request("GET",API_BASE_URL+"places?q="+place.lower())
@@ -42,9 +42,23 @@ def isplace(place):
         if not matches:
                 return None
         # Return the one with the shortest name (usually the common/preferred one)
-        return min(matches, key=lambda c: len(c['name']))
+        # return min(matches, key=lambda c: len(c['name']))
+        return matches
 
-def calculatedistance(sid,did,slat,slng,dlat,dlng):
+def get_country_details(country_code):
+    """Fetch full country data (currency, languages, calling code) by ISO code."""
+    response = requests.request("GET", API_BASE_URL + "alpha/" + country_code)  # adjust path once confirmed
+    if response.status_code != 200:
+        return None
+    data = response.json()
+    if not data:
+        return None
+    # some APIs return a list even for a single code match — handle both cases
+    if isinstance(data, list):
+        return data[0] if data else None
+    return data
+
+def calculate_distance(sid,did,slat,slng,dlat,dlng):
         url=API_BASE_URL+"distance?from="+str(sid)+"&to="+str(did)+"&lat1="+str(slat)+"&lng1="+str(slng)+"&lat2="+str(dlat)+"&lng2="+str(dlng)
         distance=requests.request("GET",url)
         if distance.status_code !=200:
