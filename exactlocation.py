@@ -1,9 +1,9 @@
-def choose_one(matches, place_type="place"):
+def choose_one(matches,location, place_type="place"):
     """If there's one match, return it directly. Otherwise, ask the user to pick."""
     if len(matches) == 1:
         return matches[0]
  
-    print(f"\nFound multiple {place_type}s matching your search:")
+    print(f"\nFound multiple {place_type}s matching your search with the term {location}:")
     for i, match in enumerate(matches, start=1):
         country_code = match.get('countryCode', 'Unknown')
         admin_code = match.get('admin1Code','Unknown')

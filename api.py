@@ -1,38 +1,71 @@
 import requests
 from constants import API_BASE_URL
-# get all country names
+
+
+def safe_get(url):
+    """Make a GET request, returning None on any connection/SSL failure instead of crashing."""
+    try:
+        return requests.request("GET", url, timeout=10)
+    except requests.exceptions.RequestException:
+        return None
+
 def iscountry(country):
-        yescountry = requests.request("GET",API_BASE_URL+"name/"+country.lower())
+        """check if the given place is a country"""
+        yescountry = safe_get(API_BASE_URL+"name/"+country.lower())
         if yescountry.status_code != 200:
                 return False   # no match found, not a country
         yescountry=yescountry.json()
         if not yescountry:
                 return False
         return True
+
+
+def get_country_details_by_name(name):
+    """Fetch full country data by name, using an exact match against results"""
+    response = safe_get(API_BASE_URL + "name/" + name.lower())
+    if response is None or response.status_code != 200:
+        return None
+    data = response.json()
+    if not data:
+        return None
+ 
+    # If the API returns a single dict (not a list), just return it directly
+    if isinstance(data, dict):
+        return data
+ 
+    # Otherwise, data is a list of loosely-matched countries — find the exact match
+    for country in data:
+        if country['name'].lower() == name.lower():
+            return country
+ 
+    # No exact match (e.g. "Iran" only matches "Iran (Islamic Republic of)") —
+    # fall back to the shortest matching name, which is usually the common one
+    matches = [c for c in data if name.lower() in c['name'].lower()]
+    if matches:
+        return min(matches, key=lambda c: len(c['name']))
+ 
+    return None
+  
+
                
 def iscity(city):
-        yescity=requests.request("GET",API_BASE_URL+"cities?q="+city.lower())
-        print("URL called:", yescity.url)
-        print("Status code:", yescity.status_code)
-        print("Raw response:", yescity.text[:300])
+        yescity=safe_get(API_BASE_URL+"cities?q="+city.lower())
+        
         if yescity.status_code != 200:
                 return False   # no match found
         yescity=yescity.json()
         if not yescity:
                 return None
-        # Find all countries whose name contains what the user typed
+        """Find all cities whose name contains what the user typed"""
         matches = [c for c in yescity if city.lower() in c['name'].lower()]
         if not matches:
                 return None
-        # Return the one with the shortest name (usually the common/preferred one)
-        # return min(matches, key=lambda c: len(c['name']))
+        """Return all the cities matching the given string"""
         return matches
 
 def isplace(place):
-        yesplace=requests.request("GET",API_BASE_URL+"places?q="+place.lower())
-        print("URL called:", yesplace.url)
-        print("Status code:", yesplace.status_code)
-        print("Raw response:", yesplace.text[:300])
+        yesplace=safe_get(API_BASE_URL+"places?q="+place.lower())
+    
         if yesplace.status_code != 200:
                 return False   # no match found
         yesplace=yesplace.json()
@@ -41,13 +74,12 @@ def isplace(place):
         matches = [c for c in yesplace if place.lower() in c['name'].lower()]
         if not matches:
                 return None
-        # Return the one with the shortest name (usually the common/preferred one)
-        # return min(matches, key=lambda c: len(c['name']))
+        """ Return all matches"""
         return matches
 
 def get_country_details(country_code):
     """Fetch full country data (currency, languages, calling code) by ISO code."""
-    response = requests.request("GET", API_BASE_URL + "alpha/" + country_code)  # adjust path once confirmed
+    response = safe_get(API_BASE_URL + "alpha/" + country_code)  # adjust path once confirmed
     if response.status_code != 200:
         return None
     data = response.json()
@@ -60,19 +92,18 @@ def get_country_details(country_code):
 
 def calculate_distance(sid,did,slat,slng,dlat,dlng):
         url=API_BASE_URL+"distance?from="+str(sid)+"&to="+str(did)+"&lat1="+str(slat)+"&lng1="+str(slng)+"&lat2="+str(dlat)+"&lng2="+str(dlng)
-        distance=requests.request("GET",url)
+        distance=safe_get(url)
         if distance.status_code !=200:
                 return False
         distance=distance.json()
         return distance["distanceKm"]
-# def api_call(url,place):
-#     result=requests.request("GET",url)
-#     places=result.json()
-#     if not places:
-#         return None  
-#     # Find all countries whose name contains what the user typed
-#     matches = [c for c in places if place.lower() in c['name'].lower()]   
-#     if not matches:
-#         return None    
-#     # Return the one with the shortest name (usually the common/preferred one)
-#     return min(matches, key=lambda c: len(c['name']))
+
+def get_cities_in_country(country_code, limit=20):
+    """Fetch a list of cities in a given country, sorted by population."""
+    response = safe_get(f"{API_BASE_URL}cities?country={country_code}")
+    if response is None or response.status_code != 200:
+        return None
+    data = response.json()
+    if not data:
+        return None
+    return data[:limit]
