@@ -1,7 +1,8 @@
-def display_result(source,destination,mode,currency,langlist,callingcode):
+def display_result(source,destination,distance,mode,currency,langlist,callingcode):
     print()
-    print(f"✈️  TRIP SUMMARY: {source.capitalize()} → {destination.capitalize()}")
+    print(f"✈️  TRIP SUMMARY: {source.title()} → {destination.title()}")
     print("─" * 45)
+    print(f"📍 Distance(approx):  {round(distance, 2)} km" if distance is not None else "📍 Distance(approx):  Unknown")
     print(f"🚗 Transport:     {mode}")
     print(f"💰 Currency:      {currency}")
     print(f"🗣️  Language(s):   {', '.join(langlist)}")

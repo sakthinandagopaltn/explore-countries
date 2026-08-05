@@ -22,22 +22,33 @@ Network Requirement:
 
 Inputs
 
-    Source 
-    Destination
+    Source as a string
+    Destination as a string
+
+    If the source/destination given is not a specific place, the program prompts to type a number from the list of places that will be displayed. 
 
 Output: 
 
+    Distance from the source to the destination
     Mode of transporatation from the source to the destination
     Currency you will need at the destination 
     Language(s) you should know at the destination
     Calling code(s) of the destination
-    Timezone of the destination
 
 Working:
 
-    1.  If the input source is a country, the application asks the user to select a specific city by providing a list of the cities. 
-    The URL that is used for this purpose is https://countries.dev/name/{countryname}
-
-    2.  If the 
+    1.  If the input source/destination is a country, the application asks the user to select a specific city by providing a list of the cities.
+        URL Used : https://countries.dev/name={countryname}
+    2.  If the input source/destination is a city, the user is prompted to select a specific place from the list of places, in the city, that is displayed.
+        URL Used : https://countries.dev/places?q={placename} and https://countries.dev/cities?q={placename}
+    3.  After the source and the destination is selected, the latitiude, longitude and geoIds of the source and the destination are retrieved. 
+    4.  With the above information, the distance between them is calculated in the program with the URL 
+    "https://countries.dev/distance?from=source&to=destination&lat1=sourcelatitude&lng1=sourcelongitude&lat2=destinationlatitude&lng2=destinationlongitude
+    5.  With the distance , the program gives any one of the following modes of transportations
+            -Car/Bus - if the distance is less than 500km
+            -Short-haul flight -  if the distance is between 500 and 3000km
+            -Long-haul flight -  if the distance is greater than 3000km
+    6. The user is also provided with the currency of the destination, the languages they need to know and the destination's calling code.
+    
 
 

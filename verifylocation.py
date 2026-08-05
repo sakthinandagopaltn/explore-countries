@@ -4,13 +4,31 @@ from api import iscountry
 from api import get_country_details_by_name
 from api import get_cities_in_country
 
-from exactlocation import choose_one
+def choose_one(matches,location, place_type="place"):
+    """If there's one match, return it directly. Otherwise, ask the user to pick."""
+    if len(matches) == 1:
+        return matches[0]
+ 
+    print(f"\nFound multiple {place_type}s matching your search with the term {location.title()}")
+    print(f"I have the name and the country code of the {place_type} for you!")
+    for i, match in enumerate(matches, start=1):
+        country_code = match.get('countryCode', 'Unknown')
+        print(f"{i}. {match['name']} ({country_code})")
+ 
+    choice = input(f"\nWhich one did you mean? Enter a number (1-{len(matches)}): ")
+    try:
+        index = int(choice) - 1
+        if 0 <= index < len(matches):
+            return matches[index]
+        print("Invalid number, please try again.")
+        return choose_one(matches, place_type)
+    except ValueError:
+        print("Please enter a valid number.")
+        return choose_one(matches, place_type)
 
 def check_location(location):
-
     city_matches = iscity(location) or []
     place_matches = isplace(location) or []
- 
     """
     Merge results from both endpoints — cities is filtered to larger places,
     places has the fuller (unfiltered) gazetteer, so combining gives the full picture
@@ -55,3 +73,4 @@ def resolve_country_input(name):
     print(f"\n'{name}' is a country. Here are some cities to choose from:")
     selected = choose_one(cities, "city")
     return selected['name']
+

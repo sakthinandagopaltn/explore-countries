@@ -1,9 +1,8 @@
 
 from process import process_data
-from display import display_result
-# Main function - displays text to be on the initial terminal screen 
-# Getting the source and the destination places from the user 
-# Passing the inputs to 'api_call' function
+""" Main function - displays text to be on the initial terminal screen 
+    Getting the source and the destination places from the user 
+    Passing the inputs to 'process_data' function """
 def main():    
         print("WELCOME TO EXPLORE THE PLACES AROUND THE WORLD!")
         print("Let me know your source and destination.")
@@ -26,6 +25,6 @@ def main():
                 print("Goodbye!")
                 break
             else:
-                 print("Enter either 1 or 2 please!")
+                print("ENTER EITHER 1 OR 2 PLEASE ...")
 if __name__ == "__main__":
     main()
