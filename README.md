@@ -5,7 +5,7 @@ This repository is created for Python Advanced Pre-Work course with Code The Dre
 
     The API that is used is Countries (countries.dev).
     A database of every country in the world, with data on population, area, region, languages, capital city, and places.
-    Base endpoint: https://countries.dev/countries
+    Base endpoint: https://countries.dev/
     Docs: https://countries.dev/docs
 
 ## Network Requirement:
