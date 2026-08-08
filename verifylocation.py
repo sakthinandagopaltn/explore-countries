@@ -5,15 +5,14 @@ from api import get_cities_in_country
 from api import get_country_details
 
 def choose_one(matches, place_type="place", location="None"):
-    # Resolve each unique country code once, regardless of single or multiple matches
+    # Resolve each unique country code once
     unique_codes = {m.get('countryCode') for m in matches if m.get('countryCode')}
     code_to_name = {}
     for code in unique_codes:
         details = get_country_details(code)
         code_to_name[code] = details['name'] if details else code
 
-    # Attach the resolved country name onto every match so it travels with
-    # the returned dict, not just the printed list
+    # Attach the resolved country name onto every match
     for m in matches:
         m['countryName'] = code_to_name.get(m.get('countryCode'), 'Unknown')
 
@@ -25,9 +24,9 @@ def choose_one(matches, place_type="place", location="None"):
         print(f"\nFound multiple {place_type}(s/ies) matching your search with the term {location.title()}")
     else:
         print(f"\nFound multiple {place_type}(s/ies) to choose from:")
-    print()
-    print(f"I have the name-country-featurecode of the {place_type} for you!")
-    print()
+    
+    print(f"\nI have the name-country-featurecode of the {place_type} for you!")
+    
     for i, match in enumerate(matches, start=1):
         print(f"{i}. {match['name']} - {match['countryName']} - {match['featureCode']}")               
  
@@ -58,10 +57,8 @@ def check_location(location, country_data):
     all_matches = []
     for match in combined:
         gid = match.get('geonameId')
-        # name = match.get('name')
-        if gid not in seen_ids : #and name not in seen_names:
+        if gid not in seen_ids :
             seen_ids.add(gid)
-            # seen_names.add(name)
             all_matches.append(match)
  
     if not all_matches:
