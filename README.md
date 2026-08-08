@@ -1,14 +1,14 @@
 # explore-countries
 This repository is created for Python Advanced Pre-Work course with Code The Dream 
 
-##API:
+## API:
 
     The API that is used is Countries (countries.dev).
     A database of every country in the world, with data on population, area, region, languages, capital city, and places.
     Base endpoint: https://countries.dev/countries
     Docs: https://countries.dev/docs
 
-##Network Requirement:
+## Network Requirement:
 
     This app makes live requests to the countries.dev API. If you're on a home network protected by a router-level security feature, these requests may be silently blocked, resulting in connection or SSL errors. 
 
@@ -20,20 +20,20 @@ This repository is created for Python Advanced Pre-Work course with Code The Dre
 
     This is a known limitation of certain ISP security features and is unrelated to the app's code.
 
-##Assumption:
+## Assumption:
 
     The key assumption made here is that there are options for car/bus/flight from any source to any destination-does not account for real-world route availability.
 
     There might be repetitions in the places listed, as they have unique geoNameIds, that represent they are actually two different places. 
 
-##Inputs
+## Inputs
 
     Source as a string
     Destination as a string
 
     If the source/destination given is not a specific place, the program prompts to type a number from the list of places that will be displayed. 
 
-##Output: 
+## Output: 
 
     Approximate distance from the source to the destination
     Mode of transporatation from the source to the destination
@@ -41,7 +41,7 @@ This repository is created for Python Advanced Pre-Work course with Code The Dre
     Language(s) you should know at the destination
     Calling code(s) of the destination
 
-##Working:
+## Working:
 
     1.  If the input source/destination is a country, the application asks the user to select a specific city by providing a list of 20 cities in the country.
         URL Used : https://countries.dev/name={countryname} and https://countries.dev/cities?country={countrycode}
