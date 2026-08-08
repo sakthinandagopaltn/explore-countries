@@ -26,7 +26,7 @@ This repository is created for Python Advanced Pre-Work course with Code The Dre
 
     There might be repetitions in the places listed, as they have unique geoNameIds, that represent they are actually two different places. 
 
-## Inputs
+## Input:
 
     Source as a string
     Destination as a string
