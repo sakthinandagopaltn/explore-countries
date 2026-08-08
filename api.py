@@ -8,16 +8,6 @@ def safe_get(url):
     except requests.exceptions.RequestException:
         return None
 
-def iscountry(country):
-        """check if the given place is a country"""
-        yescountry = safe_get(API_BASE_URL+"name/"+country.lower())
-        if yescountry is None or yescountry.status_code != 200:
-                return False   # no match found, not a country
-        yescountry=yescountry.json()
-        if not yescountry:
-                return False
-        return True
-
 def get_country_details_by_name(name):
     """Fetch full country data by name, using an exact match against results"""
     response = safe_get(API_BASE_URL + "name/" + name.lower())
@@ -40,11 +30,15 @@ def get_country_details_by_name(name):
         return min(matches, key=lambda c: len(c['name']))
     return None
             
-def iscity(city):
-        yescity=safe_get(API_BASE_URL+"cities?q="+city.lower())
-        
+def iscity(country_data,city):
+        """check if the given place is a city, optionally scoped to a country"""
+        if country_data is not None:
+              yescity=safe_get(API_BASE_URL+"cities?q="+city.lower()+"&country="+country_data['alpha2Code'].lower())
+        else:
+              yescity=safe_get(API_BASE_URL+"cities?q="+city.lower())
+             
         if yescity is None or yescity.status_code != 200:
-                return False   # no match found
+                return None   # no match found
         yescity=yescity.json()
         if not yescity:
                 return None
@@ -55,11 +49,14 @@ def iscity(city):
         """Return all the cities matching the given string"""
         return matches
 
-def isplace(place):
-        yesplace=safe_get(API_BASE_URL+"places?q="+place.lower())
-    
+def isplace(country_data,place):
+        """check if the given place is a place, optionally scoped to a country"""
+        if country_data is not None:
+            yesplace=safe_get(API_BASE_URL+"places?q="+place.lower()+"&country="+country_data['alpha2Code'].lower())
+        else:
+             yesplace=safe_get(API_BASE_URL+"places?q="+place.lower())
         if yesplace is None or yesplace.status_code != 200:
-                return False   # no match found
+                return None   # no match found
         yesplace=yesplace.json()
         if not yesplace:
                 return None
@@ -71,7 +68,7 @@ def isplace(place):
 
 def get_country_details(country_code):
     """Fetch full country data (currency, languages, calling code) by ISO code."""
-    response = safe_get(API_BASE_URL + "alpha/" + country_code)  # adjust path once confirmed
+    response = safe_get(API_BASE_URL + "alpha/" + country_code) 
     if response is None or response.status_code != 200:
         return None
     data = response.json()
@@ -96,6 +93,6 @@ def calculate_distance(sid,did,slat,slng,dlat,dlng):
         url=API_BASE_URL+"distance?from="+str(sid)+"&to="+str(did)+"&lat1="+str(slat)+"&lng1="+str(slng)+"&lat2="+str(dlat)+"&lng2="+str(dlng)
         distance=safe_get(url)
         if distance is None or distance.status_code !=200:
-                return False
+                return None
         distance=distance.json()
         return distance["distanceKm"]

@@ -11,16 +11,19 @@ def process_data(source,destination):
     sourceresponse = None
     destresponse = None
 
+    currency = None
+    languages = None
+    calling_code = None
     """resolve source down to a specific city or place record"""
-    source = resolve_country_input(source)    
-    sourceresponse = check_location(source)
+    actualsource,source_country_data = resolve_country_input(source)    
+    sourceresponse = check_location(actualsource, source_country_data)
     if sourceresponse is None:
         print(f"Sorry, couldn't find '{source}' as a city or a place.")
         return
-
+    
     """resolve destination down to a specific city or place record"""
-    destination = resolve_country_input(destination)
-    destresponse = check_location(destination)
+    actualdestination,dest_country_data = resolve_country_input(destination)
+    destresponse = check_location(actualdestination, dest_country_data)
     if destresponse is None:
         print(f"Sorry, couldn't find '{destination}' as a city or a place.")
         return
@@ -39,16 +42,19 @@ def process_data(source,destination):
     if distance is not None:
     # find mode of transport 
         mode=find_mode(distance)
+    else:
+        mode="Unknown"
 
     dest_country = get_country_details(destresponse['countryCode'])
 
     if dest_country:
-        currency = dest_country['currencies'][0]['name']
-        languages = [lang['name'] for lang in dest_country['languages']]
-        calling_code = "+" + dest_country['callingCodes'][0]
+        """List all the currencies, languages and the calling code of the destination."""
+        currency = [curr['name'] for curr in dest_country.get('currencies',[])]
+        languages = [lang['name'] for lang in dest_country.get('languages',[])]
+        calling_code = [code for code in dest_country.get('callingCodes', [])]
     else:
-        currency = "Unknown"
-        languages = []
-        calling_code = "Unknown"
+        currency = ["Unknown"]
+        languages = ["Unknown"]
+        calling_code = ["Unknown"]
 
     display_result(sourceresponse['name'], destresponse['name'], distance, mode, currency, languages, calling_code)

@@ -7,7 +7,7 @@ def main():
         print("WELCOME TO EXPLORE THE PLACES AROUND THE WORLD!")
         print("Let me know your source and destination.")
         print("I will help you with the,")
-        print("1. mode of transporatation")
+        print("1. mode of transportation")
         print("2. currency you may need")
         print("3. language(s) you should know")
         print("4. calling code(s) of the destination")
