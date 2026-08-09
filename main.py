@@ -6,11 +6,12 @@ from process import process_data
 def main():    
         print("WELCOME TO EXPLORE THE PLACES AROUND THE WORLD!")
         print("Let me know your source and destination.")
-        print("I will help you with the,")
-        print("1. mode of transportation")
-        print("2. currency you may need")
-        print("3. language(s) you should know")
-        print("4. calling code(s) of the destination")
+        print("I will help you with:")
+        print("1. distance between the source and the destination")
+        print("2. efficient mode of transportation")
+        print("3. currency you may need")
+        print("4. language(s) you should know")
+        print("5. calling code(s) of the destination")
         print("----------------------------------------------------")
         while True:
             print("Do you want to " )

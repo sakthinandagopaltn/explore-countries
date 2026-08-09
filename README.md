@@ -36,7 +36,7 @@ This repository is created for Python Advanced Pre-Work course with Code The Dre
 ## Output: 
 
     Approximate distance from the source to the destination
-    Mode of transporatation from the source to the destination
+    Efficient Mode of transporatation from the source to the destination
     Currency you will need at the destination 
     Language(s) you should know at the destination
     Calling code(s) of the destination
