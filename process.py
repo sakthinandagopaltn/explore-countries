@@ -11,11 +11,11 @@ def process_data(source,destination):
     sourceresponse = None
     destresponse = None
 
-    currency = None
-    languages = None
-    calling_code = None
     """resolve source down to a specific city or place record"""
-    actualsource,source_country_data = resolve_country_input(source)    
+    actualsource,source_country_data = resolve_country_input(source)
+    if actualsource is None:
+        print("Selection cancelled for source. Returning to main menu.")
+        return    
     sourceresponse = check_location(actualsource, source_country_data)
     if sourceresponse is None:
         print(f"Sorry, couldn't find '{source}' as a city or a place.")
@@ -23,7 +23,11 @@ def process_data(source,destination):
     
     """resolve destination down to a specific city or place record"""
     actualdestination,dest_country_data = resolve_country_input(destination)
+    if actualdestination is None:
+        print("Selection cancelled for destination. Returning to main menu.")
+        return
     destresponse = check_location(actualdestination, dest_country_data)
+    print(destresponse)
     if destresponse is None:
         print(f"Sorry, couldn't find '{destination}' as a city or a place.")
         return
@@ -45,13 +49,17 @@ def process_data(source,destination):
     else:
         mode="Unknown"
 
-    dest_country = get_country_details(destresponse['countryCode'])
+    country_code = destresponse.get('countryCode')
+    if country_code:
+        dest_country = get_country_details(country_code)
+    else:
+        dest_country = None
 
     if dest_country:
         """List all the currencies, languages and the calling code of the destination."""
         currency = [curr['name'] for curr in dest_country.get('currencies',[])]
         languages = [lang['name'] for lang in dest_country.get('languages',[])]
-        calling_code = [code for code in dest_country.get('callingCodes', [])]
+        calling_code = [f"+{code}" for code in dest_country.get('callingCodes', [])]
     else:
         currency = ["Unknown"]
         languages = ["Unknown"]

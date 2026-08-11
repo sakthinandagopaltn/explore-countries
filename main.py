@@ -1,5 +1,15 @@
 
 from process import process_data
+
+"""Method to make sure the user inputs a non empty string for source and destination"""
+def get_nonempty_input(prompt):
+    """Keep asking until the user types something other than blank/whitespace."""
+    while True:
+        value = input(prompt).strip()
+        if value:
+            return value
+        print("This can't be empty. Please enter a value.")
+
 """ Main function - displays text to be on the initial terminal screen 
     Getting the source and the destination places from the user 
     Passing the inputs to 'process_data' function """
@@ -19,8 +29,8 @@ def main():
             print("2. Exit?")
             choice=input("Enter your choice 1 or 2: ")
             if choice=="1":
-                source=input("Source: ")
-                destination=input("Destination: ")
+                source=get_nonempty_input("Source: ")
+                destination=get_nonempty_input("Destination: ")
                 process_data(source,destination)
             elif choice =="2": 
                 print("Goodbye!")
@@ -28,4 +38,7 @@ def main():
             else:
                 print("ENTER EITHER 1 OR 2 PLEASE ...")
 if __name__ == "__main__":
+ try:
     main()
+ except KeyboardInterrupt:
+    print("\nGoodbye! (interrupted)")

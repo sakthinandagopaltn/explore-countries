@@ -1,5 +1,6 @@
 import requests
 from constants import API_BASE_URL
+from functools import lru_cache
 
 def safe_get(url):
     """Make a GET request, returning None on any connection/SSL failure instead of crashing."""
@@ -66,6 +67,7 @@ def isplace(country_data,place):
         """ Return all matches"""
         return matches
 
+@lru_cache(maxsize=None)
 def get_country_details(country_code):
     """Fetch full country data (currency, languages, calling code) by ISO code."""
     response = safe_get(API_BASE_URL + "alpha/" + country_code) 
@@ -95,4 +97,4 @@ def calculate_distance(sid,did,slat,slng,dlat,dlng):
         if distance is None or distance.status_code !=200:
                 return None
         distance=distance.json()
-        return distance["distanceKm"]
+        return distance.get("distanceKm")
