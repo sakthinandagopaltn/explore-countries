@@ -22,9 +22,11 @@ This repository is created for Python Advanced Pre-Work course with Code The Dre
 
 ## Assumption:
 
-    The key assumption made here is that there are options for car/bus/flight from any source to any destination-does not account for real-world route availability.
+    1. The key assumption made here is that there are options for car/bus/flight from any source to any destination-does not account for real-world route availability.
 
-    There might be repetitions in the places listed, as they have unique geoNameIds, that represent they are actually two different places. 
+    2. There might be repetitions in the places listed, as they have unique geoNameIds, that represent they are actually two different places. 
+
+    3. Since city/place search matches substrings against name and country name fields, generic search terms (e.g. "land", "island") may occasionally surface whole-country records alongside actual cities. Selecting one of these will use the country's aggregate coordinates rather than a specific city.
 
 ## Input:
 
