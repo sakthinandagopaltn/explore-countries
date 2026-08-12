@@ -43,7 +43,7 @@ This repository is created for Python Advanced Pre-Work course with Code The Dre
 
 ## Working:
 
-    1.  If the input source/destination is a country, the application asks the user to select a specific city by providing a list of 20 cities in the country.
+    1.  If the input source/destination is a country, the application asks the user to select a specific city by providing a list of cities in the country.
         URL Used : https://countries.dev/name={countryname} and https://countries.dev/cities?country={countrycode}
     2.  If the input source/destination is a city/place, the user is prompted to select a specific place from the list of unique city and places combined,and displayed.
         URL Used : https://countries.dev/places?q={placename} and https://countries.dev/cities?q={cityname}
