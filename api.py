@@ -24,8 +24,9 @@ def get_country_details_by_name(name):
         if country['name'].lower() == name.lower():
             return country 
     # No exact match (e.g. "Iran" only matches "Iran (Islamic Republic of)") —
-    # fall back to the shortest matching name, which is usually the common one
-    matches = [c for c in data if name.lower() in c['name'].lower()]
+    # fall back to countries whose official name STARTS WITH what the user typed,
+    # then pick the shortest such name (usually the common one).
+    matches = [c for c in data if c['name'].lower().startswith(name.lower())]
     if matches:
         return min(matches, key=lambda c: len(c['name']))
     return None
