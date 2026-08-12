@@ -27,7 +27,6 @@ def process_data(source,destination):
         print("Selection cancelled for destination. Returning to main menu.")
         return
     destresponse = check_location(actualdestination, dest_country_data)
-    print(destresponse)
     if destresponse is None:
         print(f"Sorry, couldn't find '{destination}' as a city or a place.")
         return
